@@ -1,6 +1,6 @@
 {
   "name": "mongoose-dompurify",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "DOMPurify plugin for Mongoose",
   "main": "lib/",
   "directories": {
