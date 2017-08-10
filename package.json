@@ -1,42 +1,45 @@
 {
-  "name": "mongoose-sanitizer",
-  "version": "1.0.0",
-  "description": "Mongoose Sanitizer Plugin",
-  "main": "index.js",
+  "name": "mongoose-dompurify",
+  "version": "0.0.0",
+  "description": "DOMPurify plugin for Mongoose",
+  "main": "lib/",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "chai": "^3.0.0",
-    "gulp": "^3.9.0",
-    "gulp-jshint": "^1.11.0",
-    "gulp-mocha": "^2.1.1",
-    "mongoose": "^4.0.5",
-    "sanitizer": "^0.1.2",
+    "dompurify": "^0.9.0",
+    "jsdom": "^11.1.0",
     "traverse": "^0.6.6"
   },
   "devDependencies": {
-    "chai": "^3.0.0",
-    "gulp": "^3.9.0",
-    "gulp-jshint": "^1.11.0",
-    "gulp-mocha": "^2.1.1"
+    "chai": "^3.5.0",
+    "eslint": "^4.4.1",
+    "mocha": "^3.5.0",
+    "mongoose": "^4.11.6"
+  },
+  "peerDependencies": {
+    "mongoose": "^4.11.6"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "npm run eslint && npm run mocha",
+    "eslint": "eslint src/. test/. --config .eslintrc.json",
+    "mocha": "mocha test/ --recursive"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fauria/mongoose-sanitizer.git"
+    "url": "https://github.com/compwright/mongoose-dompurify.git"
   },
   "keywords": [
     "mongoose",
     "xss",
-    "sanitizer"
+    "sanitizer",
+    "html",
+    "purifier"
   ],
-  "author": "Fer Uría <fauria@gmail.com>",
+  "author": "Jonathon Hill <jhill9693@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fauria/mongoose-sanitizer/issues"
+    "url": "https://github.com/compwright/mongoose-dompurify/issues"
   },
-  "homepage": "https://github.com/fauria/mongoose-sanitizer"
+  "homepage": "https://github.com/compwright/mongoose-dompurify"
 }

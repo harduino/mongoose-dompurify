@@ -1,53 +1,37 @@
-# About
+# mongoose-dompurify
 
-[![Build Status](https://api.travis-ci.org/fauria/mongoose-sanitizer.svg)](https://api.travis-ci.org/fauria/mongoose-sanitizer)
-
-Simple plugin for [Mongoose](https://github.com/LearnBoost/mongoose) that sainitizes document fields before saving them. Makes use of [Google Caja's HTML Sanitizer](https://github.com/theSmaw/Caja-HTML-Sanitizer) to perform the sanitization.
-
-<table>
-<tr>
-<td>Package</td><td>mongoose-sanitizer</td>
-</tr>
-<tr>
-<td>Description</td>
-<td>Sanitize Mongoose documents.</td>
-</tr>
-<tr>
-<td>Node Version</td>
-<td>stable, iojs</td>
-</tr>
-</table>
+[DOMPurify](https://github.com/cure53/DOMPurify) plugin for Mongoose schemas that sanitizes documents before saving.
 
 ## Installation
 
-`npm install --save mongoose-sanitizer`
+```bash
+$ npm install --save mongoose-dompurify
+```
 
 ## Usage
 
 ```javascript
-var sanitizerPlugin = require('mongoose-sanitizer');
+const sanitizerPlugin = require('mongoose-sanitizer');
 
-MyMongooseSchema.plugin(sanitizerPlugin);
+MyMongooseSchema.plugin(sanitizerPlugin, {
+  // Sanitize these fields (default: sanitize all fields)
+  include: [],
+
+  // Do not sanitize these fields (default: exclude no fields)
+  skip: [],
+
+  // Configure DOMPurify, see https://github.com/cure53/DOMPurify for a list of options (default: undefined)
+  sanitizer: {}
+});
 ```
 
-When saving a document generated with MyMongooseSchema, mongoose-sanitizer will automatically iterate over every field, sanitizing them before storage in the database.
-
-An optional options object can be passed with the following attributes:
-
-- `skip`
-  - Default is `[]`
-  - Array indicating which fields should be excluded from being sanitized. If omitted or empty, every field in the document will be sanitized.
-  
-- `include`
-  - Default is `[]`
-  - Array indicating which fields should be sanitized. If omitted or empty, every field in the document will be sanitized.
-   
+When saving a document generated with `MyMongooseSchema`, mongoose-dompurify will automatically perform sanitization before saving to the database.
 
 ## License
 
 (The MIT License)
 
-Copyright (c) 2013 Fer Uría &lt;fauria@gmail.com&gt;
+Copyright (c) 2017 Jonathon Hill <jhill9693@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
