@@ -14,10 +14,7 @@ $ npm install --save mongoose-dompurify
 const sanitizerPlugin = require('mongoose-sanitizer');
 
 MyMongooseSchema.plugin(sanitizerPlugin, {
-  // Sanitize these fields (default: sanitize all fields)
-  include: [],
-
-  // Do not sanitize these fields (default: exclude no fields)
+  // Do not sanitize these fields (default: [])
   skip: [],
 
   // Configure DOMPurify, see https://github.com/cure53/DOMPurify for a list of options (default: undefined)
