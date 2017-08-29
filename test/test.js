@@ -5,13 +5,18 @@ const mongoose = require('mongoose');
 const sanitizerPlugin = require('../lib/');
 
 const xss_string = 'Something & something else > XSS<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>';
+const no_xss_string = 'Something & something else > XSS';
 const legitimate_string = '<script>Preserve this</script>';
+
+mongoose.plugin(sanitizerPlugin, {
+  skip: ['non_sanitizable_field']
+});
 
 mongoose.Promise = global.Promise;
 
 const TestSchema = new mongoose.Schema({
-  sanitizible_field: String,
-  non_sanitizible_field: String,
+  sanitizable_field: String,
+  non_sanitizable_field: String,
   object_field: {
     sub_sanitizable_field: {
       type: String
@@ -19,11 +24,8 @@ const TestSchema = new mongoose.Schema({
     sub_non_sanitizable_field: {
       type: String
     }
-  }
-});
-
-TestSchema.plugin(sanitizerPlugin, {
-  skip: ['non_sanitizible_field']
+  },
+  raw_object_field: Object
 });
 
 mongoose.model('Test', TestSchema);
@@ -31,45 +33,46 @@ mongoose.model('Test', TestSchema);
 const Test = mongoose.model('Test');
 
 const testDoc = new Test({
-  sanitizible_field: xss_string,
-  non_sanitizible_field: legitimate_string,
+  sanitizable_field: xss_string,
+  non_sanitizable_field: legitimate_string,
   object_field: {
     sub_sanitizable_field: xss_string
+  },
+  raw_object_field: {
+    sanitizable_field: xss_string,
+    object_field: {
+      sanitizable_field: xss_string
+    }
   }
 });
 
-describe('Mongoose Sanitizer Tests', function() {
+describe('Mongoose Sanitizer Tests', () => {
   before(function(done) {
-    mongoose.connect('mongodb://localhost/test', { useMongoClient: true }, function(err) {
+    mongoose.connect('mongodb://localhost/test', { useMongoClient: true }, (err) => {
       should.not.exist(err);
       done();
     });
   });
 
-  after(function(done){
+  after(() => {
     mongoose.connection.close();
-    done();
   });
 
-  it('should save a test document', function(done) {
-    testDoc.save(function (err) {
-      should.not.exist(err);
-      done();
-    });
+  it('should save a test document', () => testDoc.save((err) => {
+    should.not.exist(err);
+  }));
+
+  it('should not sanitize skip fields', () => {
+    testDoc.non_sanitizable_field.should.equal(legitimate_string);
   });
 
-  it('should sanitize sanitizible_field', function(done) {
-    testDoc.sanitizible_field.should.not.equal(xss_string);
-    done();
+  it('should sanitize schema fields', () => {
+    testDoc.sanitizable_field.should.equal(no_xss_string);
+    testDoc.object_field.sub_sanitizable_field.should.equal(no_xss_string);
   });
 
-  it('should not sanitize non_sanitizible_field', function(done) {
-    testDoc.non_sanitizible_field.should.equal(legitimate_string);
-    done();
-  });
-
-  it('should sanitize sub_sanitizable_field', function(done) {
-    testDoc.object_field.sub_sanitizable_field.should.not.equal(xss_string);
-    done();
+  it('should sanitize non-schema sub-fields', () => {
+    testDoc.raw_object_field.sanitizable_field.should.equal(no_xss_string);
+    testDoc.raw_object_field.object_field.sanitizable_field.should.equal(no_xss_string);
   });
 });
