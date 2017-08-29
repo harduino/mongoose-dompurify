@@ -17,6 +17,9 @@ MyMongooseSchema.plugin(sanitizerPlugin, {
   // Do not sanitize these fields (default: [])
   skip: [],
 
+  // Encode HTML entities? (default: false)
+  encodeHtmlEntities: false,
+
   // Configure DOMPurify, see https://github.com/cure53/DOMPurify for a list of options (default: undefined)
   sanitizer: {}
 });
