@@ -21,7 +21,11 @@ MyMongooseSchema.plugin(sanitizerPlugin, {
   encodeHtmlEntities: false,
 
   // Configure DOMPurify, see https://github.com/cure53/DOMPurify for a list of options (default: undefined)
-  sanitizer: {}
+  sanitizer: {
+    SAFE_FOR_JQUERY: true,
+    SAFE_FOR_TEMPLATES: true,
+    ALLOWED_TAGS: []
+  }
 });
 ```
 
