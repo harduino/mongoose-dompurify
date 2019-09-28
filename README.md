@@ -11,7 +11,7 @@ $ npm install --save mongoose-dompurify
 ## Usage
 
 ```javascript
-const sanitizerPlugin = require('mongoose-sanitizer');
+const sanitizerPlugin = require('mongoose-dompurify');
 
 MyMongooseSchema.plugin(sanitizerPlugin, {
   // Do not sanitize these fields (default: [])
