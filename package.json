@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "debug": "^3.0.0",
-    "dompurify": "^0.9.0",
+    "dompurify": "2.0.7",
     "he": "^1.1.1",
     "js-html-sanitizer": "github:virtru-components/js-html-sanitizer",
     "jsdom": "^11.1.0",
